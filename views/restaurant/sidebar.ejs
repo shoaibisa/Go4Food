@@ -1,0 +1,50 @@
+<div class="sidebar" style="border-radius: 0px">
+  <ul>
+    <li><a href="/restaurant/dashboard">Home</a></li>
+    <li><a href="/restaurant/allmenu">Menu</a></li>
+    <li>
+      <a href="/restaurant/ordernotification"
+        >Order Notification <% if(num_pending_orders>0) {%>
+        <strong
+          style="
+            background: white;
+            color: #ef3d3d;
+            padding: 2px;
+            font-size: 20px;
+            border-radius: 50%;
+          "
+        >
+          <%=num_pending_orders %> </strong
+        ><% } %></a
+      >
+    </li>
+    <li><a href="/restaurant/confirmorders">Confirm Orders</a></li>
+    <li><a href="/restaurant/profile">Profile</a></li>
+
+    <li>
+      <form action="/restaurant/logout" method="post">
+        <a>
+          <button
+            style="
+              background: transparent;
+              font-size: 18px;
+              outline: none;
+              color: white;
+              border: none;
+              size: 30px;
+            "
+            onMouseOver="this.style.color='#ef3d3d'"
+            ;
+            onMouseOut="this.style.color='white'"
+            ;
+            type="submit"
+          >
+            Logout
+          </button>
+        </a>
+      </form>
+    </li>
+
+    <!-- <li><a href="index.html">Sign Out</a></li> -->
+  </ul>
+</div>

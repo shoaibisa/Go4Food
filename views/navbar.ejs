@@ -1,0 +1,47 @@
+<header class="header">
+  <a href="/" class="logo">Go4<span class="yellow">food</span></a>
+
+  <nav
+    class="navbar"
+    style="display: flex; justify-content: center; text-align: center"
+  >
+    <form method="get" action="/search" class="search-form">
+      <input
+        type="text"
+        placeholder="Search..."
+        name="search"
+        style="padding: 5px 5px 5px 5px; border: none"
+      />
+      <button
+        type="submit"
+        style="border: none; background: transparent; margin: 5px"
+      >
+        <img
+          width="20"
+          src="https://img.icons8.com/ios/50/search--v1.png"
+          alt="search--v1"
+        />
+      </button>
+    </form>
+    <div style="justify-content: center; display: flex; align-items: center">
+      <a href="/">Menu</a>
+      <a href="/allrestaurent">Restaurant</a>
+      <% if(customer){ %>
+      <a href="/dashboard">Dashboard</a>
+      <% }else{ %>
+      <a href="/login">Login</a>
+      <% } %>
+      <img
+        width="20"
+        src="https://img.icons8.com/ios-filled/50/FA5252/shopping-cart.png"
+        alt="shopping-cart"
+      />
+    </div>
+    <!-- <a href="" class="btn" style="padding: 1rem">Make an Order</a> -->
+  </nav>
+
+  <!-- Hamburger -->
+  <div class="hamburger">
+    <img src="./images/grid-outline.svg" alt="" />
+  </div>
+</header>

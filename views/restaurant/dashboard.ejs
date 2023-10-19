@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Go4Food Restaurant Catalog</title>
+        <link rel="stylesheet" href="../css/styles.css" />
+        <style>
+          .column {
+            float: left;
+            width: 25%;
+            padding: 0 10px;
+          }
+          
+          .row {margin: 0 -5px;}
+          
+          .row:after {
+            content: "";
+            display: table;
+            clear: both;
+          }
+          
+          .card {
+            box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2); 
+            padding: 16px;
+            text-align: center;
+            background-color: #f1f1f1;
+          }
+               </style>
+  </head>
+  <body>
+    <div class="container-fluid">
+      <!-- navbar -->
+      <%- include('header') %>
+      <!-- Side bar -->
+      <div class="content" style="min-height: 100vh; margin-top: 0px">
+        <%- include('sidebar') %>
+        <div class="restaurant-catalog">
+            <h2>Welcome <%= restaurant.name %></h2>
+            <div class="row">
+              <div class="column">
+                <div class="card" style=" text-align: left;">
+                  <h5  style=" font-size: 16px;padding: 10px"> Total Order</h5>
+                  <h1><%= restaurant.orders.length %></h1>
+                </div>
+              </div>
+              <div class="column">
+                <div class="card" style=" text-align: left;">
+                  <h5  style=" font-size: 16px;padding: 10px"> Total Menu</h5>
+                  <h1><%= restaurant.menu.length %></h1>
+                </div>
+              </div>
+              <div class="column">
+                <div class="card"  style=" text-align: left;">
+                  <h5  style=" font-size: 16px;padding: 10px"> Total Coustomer</h5>
+                  <h1><%= restaurant.orders.length %></h1>
+                </div>
+              </div>
+              <div class="column">
+                <div class="card">.</div>
+              </div>
+            </div>
+        <h3>Analysis</h3>
+            <div>
+              <canvas id="myChart"></canvas>
+            </div>
+        </div>
+    </div>
+      <!--  main  -->
+    </div>
+    </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+      const ctx = document.getElementById('myChart');
+      const labels = '<%=menus_name %>'
+      const order = '<%=menus_orders %>'
+ 
+    
+      new Chart(ctx, {
+        type: 'bar',
+        data: {
+          labels:  labels.split(","),
+          datasets: [{
+            label: '# of Orders',
+            data:  order.split(","),
+            borderWidth: 1
+          }]
+        },
+        options: {
+          scales: {
+            y: {
+              beginAtZero: true
+            }
+          }
+        }
+      });
+    </script>
+     
+  </body>
+</html>

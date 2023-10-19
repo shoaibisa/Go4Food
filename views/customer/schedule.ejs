@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Go4Food - Schedule Order</title>
+    <link rel="stylesheet" href="css/styles.css" />
+
+    <style>
+    
+      .schedule-order-content {
+        padding: 20px;
+      }
+
+      h1 {
+        text-align: center;
+        margin-bottom: 20px;
+      }
+
+      .order-list {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        margin-bottom: 20px;
+      }
+
+      .order-item {
+        width: calc(50% - 20px);
+        margin-bottom: 20px;
+        padding: 20px;
+        background-color: #fff;
+        border: 1px solid #e0e0e0;
+        box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+        border-radius: 5px;
+      }
+
+      .order-item h3 {
+        font-size: 18px;
+        color: #ef3d3d;
+      }
+
+      .order-item p {
+        margin-bottom: 10px;
+        font-size: 14px;
+        color: #777;
+      }
+
+      .schedule-options {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-top: 10px;
+      }
+
+      .schedule-button {
+        display: flex;
+        justify-content: center;
+      }
+
+      .schedule-order-button {
+        padding: 10px 20px;
+        background-color: #ef3d3d;
+        border: none;
+        border-radius: 5px;
+        color: #fff;
+        cursor: pointer;
+      }
+
+      .schedule-order-button:hover {
+        background-color: #ff5656;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container-fluid">
+      <%- include('header.ejs') %>
+
+      <div class="content"  style="min-height: 100vh; margin-top: 0px !important">
+        <%-include("sidebar") %>
+        <div class="restaurant-catalog">
+          <div class="schedule-order-content">
+            <h1>Schedule Order</h1>
+  
+            <h2>Choose an Order</h2>
+            <form action="/schedule" method="post">
+            <div class="order-list">
+              <% if(orders.length==0){%>
+              <h1>No orders found</h1>
+              <p>Please have some delivered orders!</p>
+              <% }else{ %>
+              <% for(var i=0;i<orders.length;i++){ %>
+              <div class="order-item">
+                <h3>Order #<%=orders[i]._id %></h3>
+                <p>Delivery Address: <%=customer.address %></p>
+                <p>Items: <%= orders[i].menus.menu_id.title %></p>
+                <p>Total: $<%= orders[i].price %></p>
+                <input type="checkbox" name="check" class="schedule-checkbox" value="<%=orders[i]._id %>" />
+              </div>
+              
+              <% } %>
+              <% } %>
+   
+            </div>
+  
+            <h2>Schedule Options</h2>
+            <div class="schedule-options">
+              <div>
+                <label for="frequency">Delivery Frequency:</label>
+                <select id="frequency" name="frequency"  style="padding: 6px;">
+                  <option value="daily">Daily</option>
+                  <option value="weekly">Weekly</option>
+                </select>
+              </div>
+              <div class="schedule-button">
+                <button class="schedule-order-button">Schedule Order</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

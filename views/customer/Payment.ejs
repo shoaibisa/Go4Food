@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Go4Food - Payment</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      .container {
+        max-width: 1200px;
+        border-radius: 10px;
+        margin: 0 auto;
+      }
+
+      header {
+        background-color: #ef3d3d;
+        padding: 20px;
+        color: #fff;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+      }
+
+      .header-logo {
+        display: flex;
+        align-items: center;
+        font-size: 24px;
+        font-weight: bold;
+      }
+
+      .header-logo img {
+        height: 50px;
+        width: 50px;
+      }
+
+      .search-form {
+        display: flex;
+        align-items: center;
+        margin-top: 10px;
+      }
+
+      .search-input {
+        padding: 10px;
+        border: none;
+        border-radius: 5px 0 0 5px;
+      }
+
+      .search-button {
+        padding: 10px 20px;
+        background-color: #fff;
+        border: none;
+        border-radius: 0 5px 5px 0;
+        color: #ef3d3d;
+        cursor: pointer;
+      }
+
+      .content {
+        display: flex;
+        justify-content: space-between;
+        margin-top: 20px;
+      }
+
+      .sidebar {
+        width: 200px;
+        background-color: #ef3d3d;
+        padding: 20px;
+        color: #fff;
+        border-radius: 10px;
+      }
+
+      .sidebar ul {
+        list-style-type: none;
+        padding: 0;
+        margin-bottom: 20px;
+      }
+
+      .sidebar li {
+        margin-bottom: 10px;
+      }
+
+      .sidebar a {
+        text-decoration: none;
+        color: #fff;
+        font-size: 16px;
+        display: block;
+        padding: 5px 10px;
+        border-radius: 5px;
+      }
+
+      .sidebar a:hover {
+        background-color: #fff;
+        color: #ef3d3d;
+      }
+
+      .payment-content {
+        flex: 1;
+        padding: 20px;
+        display: flex;
+      }
+
+      h1 {
+        text-align: center;
+        margin-bottom: 20px;
+      }
+
+      .payment-form {
+        width: 70%;
+        margin: 20px;
+        background-color: #fff;
+        border: 1px solid #e0e0e0;
+        border-radius: 5px;
+        padding: 20px;
+      }
+      .cart-form {
+        width: 40%;
+        margin: 20px;
+        background-color: #fff;
+        border: 1px solid #e0e0e0;
+        border-radius: 5px;
+        padding: 20px;
+      }
+
+      .form-group {
+        margin-bottom: 20px;
+      }
+
+      .form-group label {
+        display: block;
+        font-weight: bold;
+        margin-bottom: 5px;
+      }
+
+      .form-group input {
+        width: 100%;
+        padding: 10px;
+        border: 1px solid #e0e0e0;
+        border-radius: 5px;
+      }
+
+      .form-group select {
+        width: 100%;
+        padding: 10px;
+        border: 1px solid #e0e0e0;
+        border-radius: 5px;
+        appearance: none;
+      }
+
+      .form-group input[type="submit"] {
+        padding: 10px 20px;
+        background-color: #ef3d3d;
+        border: none;
+        border-radius: 5px;
+        color: #fff;
+        cursor: pointer;
+      }
+      .header {
+        font-size: 1.5rem;
+      }
+
+      .form-group input[type="submit"]:hover {
+        background-color: #bf2c2c;
+      }
+      .row {
+        display: flex;
+        justify-content: space-between;
+        margin-top: 10px;
+      }
+      .lower {
+        line-height: 2;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container-fluid">
+      <%- include('header') %>
+
+      <div class="content" style="margin-top: 0px">
+        <%- include('sidebar') %>
+        <!-- <h1>Payment</h1> -->
+        <div class="payment-content">
+          <div class="orderSummary cart-form">
+            <div class="header">Order Summary</div>
+            <% if(type==="single"){ %>
+            <p>1 items</p>
+            <div class="items" style="display: flex; margin-top: 10px">
+              <div class="">
+                <img
+                  style="width: 70px; height: auto"
+                  class="img-fluid"
+                  src="/images/<%=menu.images[0] %>"
+                />
+              </div>
+              <div class="" style="margin-left: 15px">
+                <div>$ <%=menu.price %></div>
+                <div
+                  class="row text-muted"
+                  style="font-size: 14px; opacity: 0.5"
+                >
+                  <%=menu.title %>
+                </div>
+                <div style="font-size: 14px">Qty:1</div>
+              </div>
+            </div>
+             
+            <div class="row lower">
+              <div class="col text-left">Subtotal</div>
+              <div class="col text-right">$ <%=menu.price %></div>
+            </div>
+            <div class="row lower">
+              <div class="col text-left">Delivery</div>
+              <div class="col text-right">Free</div>
+            </div>
+            <div class="row lower">
+              <div class="col text-left"><b>Total to pay</b></div>
+              <div class="col text-right"><b>$ <%=menu.price %></b></div>
+            </div>
+          </div>
+            <% }else{ %>
+            <p><%=cart.total %> items</p>
+            <% for(var i=0; i<menus.length; i++){ %>
+            <div class="items" style="display: flex; margin-top: 20px">
+              <div class="">
+                <img
+                  style="width: 70px; height: auto"
+                  class="img-fluid"
+                  src="/images/<%=menus[i].menu_id.images[0] %>"
+                />
+              </div>
+              <div class="" style="margin-left: 15px">
+                <div><b> $ <%=menus[i].quantity*menus[i].menu_id.price %></b></div>
+                <div
+                  class="row text-muted"
+                  style="font-size: 14px; opacity: 0.5"
+                >
+                  <%=menus[i].menu_id.title %>
+                </div>
+                <div style="font-size: 14px">Qty:<%=menus[i].quantity %></div>
+              </div>
+            </div>
+            <hr>
+<% } %>
+<div class="row lower">
+  <div class="col text-left">Subtotal</div>
+  <div class="col text-right">$ <%=cart.price %></div>
+</div>
+<div class="row lower">
+  <div class="col text-left">Delivery</div>
+  <div class="col text-right">Free</div>
+</div>
+<div class="row lower">
+  <div class="col text-left"><b>Total to pay</b></div>
+  <div class="col text-right"><b>$ <%=cart.price %></b></div>
+</div>
+</div>
+            
+          <% } %>
+
+          <div class="payment-form">
+            <form action="/payment" method="post">
+              <% if(msg){ %>
+              <p style="color: red"><%=msg %></p>
+              <% } %>
+            <div class="form-group">
+              <label for="card-number">Card Number</label>
+              <input
+                type="text"
+                id="card-number"
+                name="cardNumber"
+                placeholder="Enter your card number"
+              />
+            </div>
+
+            <div class="form-group">
+              <label for="card-holder">Card Holder Name</label>
+              <input
+                type="text"
+                id="card-holder"
+                name="cardName"
+                placeholder="Enter the card holder name"
+              />
+            </div>
+
+            <div class="form-group">
+              <label for="expiry-date">Expiry Date</label>
+              <input
+                type="text"
+                id="expiry-date"
+                name="expiryDate"
+                placeholder="Enter the expiry date (MM/YYYY)"
+              />
+            </div>
+
+            <div class="form-group">
+              <label for="cvv">CVV</label>
+              <input
+                type="text"
+                id="cvv"
+                name="cvc"
+                placeholder="Enter the CVV"
+              />
+            </div>
+            <div class="form-group">
+              <label for="cvv">Amount $</label>
+              <input
+                type="number"
+                id="cvv"
+                name="amount"
+                placeholder="Enter the amount"
+              />
+            </div>
+            <% if (type ==="single"){ %>
+            <input type="hidden" name="menu_id" value="<%=menu._id %>">
+            <% }%>
+            <input type="hidden" name="type" value="<%=type %>">
+            <div class="form-group">
+              <label for="billing-address">Billing Address</label>
+              <input
+                type="text"
+                id="billing-address"
+                name="billingAddress"
+                placeholder="Enter your billing address"
+              />
+            </div>
+
+            <div class="form-group">
+              <input type="submit" value="Confirm Payment" />
+            </div>
+          </div>
+        </form>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

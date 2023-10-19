@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Go4Food Restaurant Catalog</title>
+    <link rel="stylesheet" href="/css/styles.css" />
+    <link
+      rel="stylesheet"
+      href="https://use.fontawesome.com/releases/v5.7.2/css/all.css"
+    />
+    <style>
+      .custom-row {
+        display: -ms-flexbox;
+        display: flex;
+        -ms-flex-wrap: wrap;
+        flex-wrap: wrap;
+        margin-right: -15px;
+        margin-left: -15px;
+      }
+
+      .custom-col {
+        -ms-flex-preferred-size: 0;
+        flex-basis: 0;
+        -ms-flex-positive: 1;
+        flex-grow: 1;
+        max-width: 100%;
+
+        position: relative;
+        width: 100%;
+        padding-right: 15px;
+        padding-left: 15px;
+      }
+
+      hr {
+        margin-top: 1rem;
+        margin-bottom: 1rem;
+        border: 0;
+        border-top: 1px solid rgba(0, 0, 0, 0.1);
+      }
+
+      .custom-container {
+        margin-top: 50px;
+        margin-bottom: 50px;
+      }
+
+      .custom-card-body {
+        -ms-flex: 1 1 auto;
+        flex: 1 1 auto;
+        padding: 1.25rem;
+      }
+
+      .custom-card {
+        position: relative;
+        display: -webkit-box;
+        display: -ms-flexbox;
+        display: flex;
+        -webkit-box-orient: vertical;
+        -webkit-box-direction: normal;
+        -ms-flex-direction: column;
+        flex-direction: column;
+        min-width: 0;
+        word-wrap: break-word;
+        background-color: #fff;
+        background-clip: border-box;
+        border: 1px solid rgba(0, 0, 0, 0.1);
+        border-radius: 0.1rem;
+      }
+
+      .custom-card-header:first-child {
+        border-radius: calc(0.37rem - 1px) calc(0.37rem - 1px) 0 0;
+      }
+
+      .custom-card-header {
+        padding: 0.75rem 1.25rem;
+        margin-bottom: 0;
+        color: #000;
+        background-color: #fff;
+        border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+      }
+
+      .custom-track {
+        position: relative;
+        background-color: #ddd;
+        height: 7px;
+        display: -webkit-box;
+        display: -ms-flexbox;
+        display: flex;
+        margin-bottom: 60px;
+        margin-top: 50px;
+      }
+
+      .custom-track .custom-step {
+        -webkit-box-flex: 1;
+        -ms-flex-positive: 1;
+        flex-grow: 1;
+        width: 25%;
+        margin-top: -18px;
+        text-align: center;
+        position: relative;
+      }
+
+      .custom-track .custom-step.active:before {
+        background: #ff5722;
+      }
+
+      .custom-track .custom-step::before {
+        height: 7px;
+        position: absolute;
+        content: "";
+        width: 100%;
+        left: 0;
+        top: 18px;
+      }
+
+      .custom-track .custom-step.active .icon {
+        background: #ee5435;
+        color: #fff;
+      }
+
+      .custom-track .custom-icon {
+        display: inline-block;
+        width: 40px;
+        height: 40px;
+        line-height: 40px;
+        position: relative;
+        border-radius: 100%;
+        background: #ddd;
+      }
+
+      .custom-track .custom-step.active .text {
+        font-weight: 400;
+        color: #000;
+      }
+
+      .custom-track .custom-text {
+        display: block;
+        margin-top: 7px;
+      }
+
+      .custom-itemside {
+        position: relative;
+        display: -webkit-box;
+        display: -ms-flexbox;
+        display: flex;
+        width: 100%;
+      }
+
+      .custom-itemside .custom-aside {
+        position: relative;
+        -ms-flex-negative: 0;
+        flex-shrink: 0;
+      }
+
+      .custom-img-sm {
+        width: 80px;
+        height: 80px;
+        padding: 7px;
+      }
+
+      ul.custom-row,
+      ul.custom-row-sm {
+        list-style: none;
+        padding: 0;
+      }
+
+      .custom-itemside .custom-info {
+        padding-left: 15px;
+        padding-right: 7px;
+      }
+
+      .custom-itemside .custom-title {
+        display: block;
+        margin-bottom: 5px;
+        color: #212529;
+      }
+
+      p {
+        margin-top: 0;
+        margin-bottom: 1rem;
+      }
+
+      .custom-btn-warning {
+        color: #ffffff;
+        background-color: #ee5435;
+        border-color: #ee5435;
+        border-radius: 1px;
+      }
+
+      .custom-btn-warning:hover {
+        color: #ffffff;
+        background-color: #ff2b00;
+        border-color: #ff2b00;
+        border-radius: 1px;
+      }
+
+      @media (min-width: 1200px) {
+        .custom-container {
+          max-width: 1140px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container-fluid" style="margin: 0px; padding: 0px">
+      <!-- navbar -->
+      <%- include('header') %>
+      <div
+        class="content"
+        style="min-height: 100vh; margin-top: 0px !important"
+      >
+        <%- include('sidebar') %>
+        <div class="restaurant-catalog">
+          <div class="container">
+            <article class="custom-card">
+              <header class="custom-card-header">My Orders / Tracking</header>
+              <div class="custom-card-body">
+                <!-- <h6 style="padding: 10px; font-size: 18px">
+                  Order ID: <%=order._id %>
+                </h6> -->
+                <article class="custom-card">
+                  <div class="custom-card-body custom-row">
+                    <div class="custom-col">
+                      <strong>Estimated Delivery time:</strong> <br />
+                      <%=order.shippingDetails.customerExpectedTime %>
+                    </div>
+                    <div class="custom-col">
+                      <strong>Shipping BY:</strong> <br />
+                      <%=order.shippingDetails.deliveryPerson %>, |
+                      <i class="fa fa-phone"></i> +
+                      <%=order.shippingDetails.phone %>
+                    </div>
+                    <div class="custom-col">
+                      <strong>Status:</strong> <br />
+                      <%=order.status %>
+                    </div>
+                    <div class="custom-col">
+                      <strong>Order Id :</strong> <br />
+                      <%=order._id %>
+                    </div>
+                  </div>
+                </article>
+                <div class="custom-track">
+                  <div
+                    class="custom-step <% if (order.shippingDetails.orderTracking >= 1) { %>active<% } %>"
+                  >
+                    <span class="custom-icon">
+                      <i class="fa fa-hamburger"></i>
+                    </span>
+                    <span class="custom-text">Preparing Food</span>
+                  </div>
+                  <div
+                    class="custom-step <% if (order.shippingDetails.orderTracking >= 2) { %>active<% } %>"
+                  >
+                    <span class="custom-icon">
+                      <i class="fa fa-check-circle"></i>
+                    </span>
+                    <span class="custom-text">Completed Packaging</span>
+                  </div>
+                  <div
+                    class="custom-step <% if (order.shippingDetails.orderTracking >= 3) { %>active<% } %>"
+                  >
+                    <span class="custom-icon">
+                      <i class="fa fa-user-secret"></i>
+                    </span>
+                    <span class="custom-text">Delivery Persong Assigned</span>
+                  </div>
+                  <div
+                    class="custom-step <% if (order.shippingDetails.orderTracking >= 4) { %>active<% } %>"
+                  >
+                    <span class="custom-icon">
+                      <i class="fa fa-shipping-fast"></i>
+                    </span>
+                    <span class="custom-text">Package Shipped</span>
+                  </div>
+                  <div
+                    class="custom-step <% if (order.shippingDetails.orderTracking >= 5) { %>active<% } %>"
+                  >
+                    <span class="custom-icon">
+                      <i class="fa fa-tasks"></i>
+                    </span>
+                    <span class="custom-text">Package Delivered</span>
+                  </div>
+                </div>
+                <hr />
+                <ul class="custom-row">
+                  <li class="custom-col">
+                    <figure class="custom-itemside mb-3">
+                      <div
+                        class="custom-aside"
+                        style="display: flex; align-items: center"
+                      >
+                        <img
+                          src="/images/<%=order.menus.menu_id.images[0] %>"
+                          class="custom-img-sm border"
+                          style="margin-right: 10px"
+                        />
+                        <h4><%=order.menus.menu_id.title %></h4>
+                      </div>
+                      <figcaption
+                        class="custom-info align-self-center"
+                        style="
+                          display: flex;
+                          align-items: center;
+                          justify-content: space-evenly;
+                          width: 90%;
+                        "
+                      >
+                        <div>
+                          <p class="custom-title">
+                            X <%=order.menus.quantity %>
+                          </p>
+                        </div>
+                        <div>
+                          <span class="text-muted"
+                            >$ <%=order.menus.menu_id.price %></span
+                          >
+                        </div>
+                      </figcaption>
+                    </figure>
+                  </li>
+                </ul>
+              </div>
+            </article>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

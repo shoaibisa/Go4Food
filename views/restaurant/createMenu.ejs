@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Go4Food Restaurant Catalog</title>
+        <link rel="stylesheet" href="../css/styles.css" />
+        <link rel='stylesheet' href='https://fonts.googleapis.com/icon?family=Material+Icons'>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/js/select2.min.js"></script>
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/css/select2.min.css" rel="stylesheet" />
+
+       <style>
+        .select2-selection__rendered{
+          padding:  10px 20px  10px 20px !important;
+        }
+        .select2-selection__choice{
+           padding:5px !important;
+            font-size: 18px !important;
+        }
+        .select2-selection__choice span{
+          font-size: 18px !important;
+        }
+       </style>
+  </head>
+  <body>
+    <div class="container-fluid">
+      <!-- navbar -->
+      <%- include('header') %>
+      <!-- Side bar -->
+      <div class="content" style="min-height: 100vh; margin-top: 0px">
+        <%- include('sidebar') %>
+        <div class="restaurant-catalog">
+            <h1>Create Menu</h1>
+            <div class="dishform-main-wrapper">
+                <div class="dishform-form-wrapper">
+                  <form action="/restaurant/create-menu" method="POST" id="my-form" enctype="multipart/form-data">
+                    <div class="dishform-input">
+                      <div>
+                        <label for="firstname" class="dishform-form-label">
+                          Dish Name
+                        </label>
+                        <input
+                          type="text"
+                          name="title"
+                           placeholder="Enter Dish name"
+                          class="dishform-form-input"
+                        />
+                      </div>
+                  
+                    </div>
+              
+                    <div class="dishform-input-flex">
+                      <div>
+                        <label for="email" class="dishform-form-label"> Dish price </label>
+                        <input
+                          type="number"
+                          name="price"
+                        placeholder="Enter Price"
+                          class="dishform-form-input"
+                        />
+                      </div>
+                      <div>
+                        <label for="phone" class="dishform-form-label"> Dish Quantity </label>
+                        <input
+                          type="number"
+                          name="quantity"
+                           placeholder="Enter Quantity"
+                          class="dishform-form-input"
+                        />
+                      </div>
+                    </div>
+              
+                    <div class="dishform-mb-3">
+                      <label for="address" class="dishform-form-label">
+                        Dish Discription
+                      </label>
+                      <textarea
+                        type="text"
+                        name="description"
+                         placeholder="Discription"
+                        class="dishform-form-input"
+                         rows="5"
+                          cols="80"
+                      ></textarea>
+                    </div>
+              
+                    <div class="dishform-mb-3">
+                      <label for="address2" class="dishform-form-label">
+                       Dish Teg 
+                      </label>
+                     
+                      <select class="form-control select2 select2-hidden-accessible" name="t" multiple="" data-placeholder="Select a State" style="width: 100%;" tabindex="-1" aria-hidden="true">
+                        <option   value="veg">veg</option>
+                        <option   value="non-veg" >non-veg</option>
+                        <option   value="fat" >fat</option>
+                        <option   value="calori" >calori</option>
+                        <option   value="protein" >protein</option>
+                        <option   value="carbs" >carbs</option>
+                        <option   value="vitamin" >vitamin</option>
+                        
+                    </select>
+                    </div>
+                    <div class="dishform-input">
+                      <div>
+                        <label for="imageuplaod" class="dishform-form-label">
+                          Upload Image
+                        </label>
+                        <div class="multiple-uploader" id="multiple-uploader">
+                          <div class="mup-msg">
+                              <span class="mup-main-msg">click to upload images.</span>
+                              <span class="mup-msg" id="max-upload-number">Upload up to 10 images</span>
+                          </div>
+                      </div>      
+                    </div>
+                  </div>
+                    <button class="dishform-btn" type="submit">Create Now</button>
+                  </form>
+                
+              </div>
+           
+        </div>
+    </div>
+      <!--  main  -->
+    </div>
+    </div>
+    </div>
+     <script src="../js/multiple-uploader.js"></script>
+<script>
+        $(document).ready(function() {
+          $('.select2').select2({
+          closeOnSelect: false
+      });
+      });
+
+
+    let multipleUploader = new MultipleUploader('#multiple-uploader').init({
+        maxUpload : 20,
+        maxSize:2,
+        filesInpName:'images', 
+        formSelector: '#my-form', 
+    });
+
+</script>
+  </body>
+</html>

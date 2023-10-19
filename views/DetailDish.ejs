@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Go4Food Restaurant Catalog</title>
+    <link rel="stylesheet" href="/css/styles.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <style>
+     .dish-panel {
+  background: #fff;
+  -webkit-box-shadow: 0 1px 6px 1px rgba(69,65,78, 0.1);
+  -moz-box-shadow: 0 1px 6px 1px rgba(69,65,78,0.1);
+  box-shadow: 0 1px 6px 1px rgba(69,65,78,0.1);
+  margin-bottom: 30px;
+}
+.dish-panel.has-border{
+  border: 1px solid rgba(0,0,0,.1);
+}
+.dish-panel-header {
+  position: relative;
+  padding: 1.5rem;
+  border-bottom: 1px solid rgba(0,0,0,0.1);
+}
+
+.dish-panel.dish-panel-fh{
+  height: calc( 100% - 2rem );
+}
+.dish-panel-header {
+  position: relative;
+  padding: 1.5rem;
+  border-bottom: 1px solid rgba(0,0,0,0.1);
+}
+
+
+.new .grid-btn{
+  min-width: 0px;
+}
+
+.dish-panel-body{
+  position: relative;
+  padding: 1.5rem;
+}
+
+.new {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.dish-quick-stats{
+   justify-content: space-around;
+  display: flex;
+  align-items: center;
+}
+.dish-quick-stats i{
+  font-size: 34px;
+  padding: 10px;
+  width: 44px;
+  height: 44px;
+  margin-bottom: 0.825rem;
+  border-radius: 5px;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+}
+.dish-quick-stats p{
+  margin-bottom: 0;
+  font-size: 1.3rem;
+  font-weight: 700;
+}
+.description {
+    padding-bottom: 30px;
+}
+
+    </style>
+  </head>
+  <body>
+    <div class="container-fluid"  style="margin: 0; padding: 0;">
+      <!-- navbar -->
+      <%- include('navbar.ejs') %>
+      <!-- <div
+        class="content"
+        style="min-height: 100vh; margin-top: 0px !important"
+      > -->
+        <!-- <%- include('sidebar') %> -->
+        <div class="restaurant-catalog"  style="background-color: #F9F9F9;  margin-top: 50px;">
+            <div class="row"  style="     padding: 65px;
+            width: 80%;
+            margin: auto;">
+                <div class="col-md-12">
+                   <div class="dish-panel">
+                      <div class="dish-panel-header">
+                         <h6>Product Details</h6>
+                      </div>
+                    
+                      <div id="carouselExampleControls" class="carousel slide" data-ride="carousel" style="padding: 20px;">
+                        <div class="carousel-inner">
+                          <% for(let i=0; i<menu.images.length; i++){ %>
+
+                          <div class="carousel-item 
+                          <% if(i==0){ %>
+                            active
+                          <% } %>
+
+                          ">
+                            <img class="d-block w-100" src="/images/<%=menu.images[i] %>" alt="First slide">
+                          </div>
+                          <% } %>
+ 
+                        </div>
+                        <a class="carousel-control-prev" href="#carouselExampleControls" role="button" data-slide="prev">
+                          <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                          <span class="sr-only">Previous</span>
+                        </a>
+                        <a class="carousel-control-next" href="#carouselExampleControls" role="button" data-slide="next">
+                          <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                          <span class="sr-only">Next</span>
+                        </a>
+                      </div>
+                      
+                   </div>
+                </div>
+                <div class=" col-md-6">
+                   <div class="dish-panel dish-panel-fh">
+                      <div class="dish-panel-body">
+                         <h4 class="section-title bold">Product Info</h4>
+                         <table class="table dish-profile-information">
+                            <tbody>
+                               <tr>
+                                  <th scope="row">Price</th>
+                                  <td>$ <%=menu.price %></td>
+                               </tr>
+                               <tr>
+                                  <th scope="row">Product Category</th>
+                                  <% for(let i=0; i<menu.tags.length; i++){ %>
+                                  <a href="/dishtag/<%=menu.tags[i] %>">
+                                  <td><%=menu.tags[i] %></td>
+                                </a>
+                                  <% } %>
+                               </tr>
+                               <tr>
+                                  <th scope="row">Availiblity</th>
+                                  <td><span class="badge badge-pill badge-primary" style="  background: #ef3d3d;">
+                                    <% if(menu.quantity==0){ %>
+                                      Out of Stock
+                                    <% }else{ %>
+                                    In stock</span></td>
+                                    <% } %>
+                               </tr>
+                               <tr>
+                                  <th scope="row">Delivery Charges</th>
+                                  <td>Free</td>
+                               </tr>
+                               <tr>
+                                  <th scope="row">SKU Identification</th>
+                                  <td>23445</td>
+                               </tr>
+                            </tbody>
+                         </table>
+                         <div class="new">
+                          <form action="/cart" method="post">
+                            <input type="hidden" name="menu_id" value="<%=menu._id %>">
+                              
+                           <button type="submit" class="btn btn-primary" style="
+                           background: #ef3d3d;
+                           padding: 10px 30px 10px 30px;
+                           border: none;
+                           outline: none;
+                       ">Add to Cart</button>
+                       </form>
+                       <form action="/buynowsingle" method="post">
+                        <input type="hidden" name="menu_id" value="<%=menu._id %>">
+                           <button type="submit" class="btn btn-secondary"
+                           style="
+                          
+                           padding: 10px 30px 10px 30px;
+                           border: none;
+                           outline: none;
+                       ">Buy Now</button></form></div>
+                      </div>
+                   </div>
+                </div>
+                <div class=" col-md-6">
+ 
+
+                   <div class="dish-panel dish-panel-fh">
+                      <div class="dish-panel-body">
+                         <h4 class="section-title bold">Product Details </h4>
+                         <p class="description"><%=menu.description %></p>
+                      </div>
+                      <div class="dish-quick-stats">
+                         <div class="dish-stats-grid">
+                            <i class="fa fa-bullhorn"></i>
+                            <p class="dish-text-dark"><%=num_orders %></p>
+                            <span>Total Order</span>
+                         </div>
+                         <div class="dish-stats-grid">
+                            <i class="fa fa-heart"></i>
+                            <p class="dish-text-dark">
+                              <p class="recipe-metadata">
+                                <span class="recipe-rating">
+                                  <%var sum = 0; %>
+                                  <%for(var j=0;j<menu.reviews.length; j++) {%>
+                                    <%  sum = sum + menu.reviews[j].rating %>
+                                  <% } %>
+                                  <%var rating = sum/menu.reviews.length; rating = Math.floor(rating) %>
+                                  <% if (sum===0) {rating=0} %>
+                                  <%for(var j=0;j<rating;j++){ %>
+                                    <span>★</span>
+                                  <% } %>
+                                  <%for(var j=0;j<5-rating;j++){ %>
+                                    <span>☆</span>
+                                  <% } %>
+                                  </span>
+                                 <span class="recipe-votes">(<%=menu.reviews.length %> votes)</span>
+                              </p>
+                            </p>
+                            <span>Rating</span>
+                         </div>
+                      </div>
+                   </div>
+                </div>
+                <div class=" col-md-12">
+                  <h4 class="section-title bold">Product reviews</h4>
+                  <% if(menu.reviews.length==0){ %>
+                    <p>No reviews yet</p>
+                  <% } %>
+                <% for(var i=0; i<menu.reviews.length; i++){ %>
+                 <div class="dish-panel dish-panel-fh"  style="padding: 10px; margin: 0px;">
+                    <div  style="padding: 0.5rem;">
+                       <h4 class="section-title bold"><%=menu.reviews[i].customer.name %></h4>
+                      </div>
+                       <div  style="display: flex; margin: 10px;;  ">
+                        <p class="recipe-metadata">Rate: 
+                          <samp style=" border-radius: 8px;  margin-right: 5px;  width: 30px; height: 30px; background-color: green;padding: 5px; color: #fff;display: flex;justify-content: center; ">
+                            <span class="recipe-rating">
+                              <%var sum = 0; %>
+                              <%for(var j=0;j<menu.reviews.length; j++) {%>
+                                <%  sum = sum + menu.reviews[j].rating %>
+                              <% } %>
+                              <%var rating = sum/menu.reviews.length; rating = Math.floor(rating) %>
+                              <% if (sum===0) {rating=0} %>
+                              <%for(var j=0;j<rating;j++){ %>
+                                <span>★</span>
+                              <% } %>
+                              <%for(var j=0;j<5-rating;j++){ %>
+                                <span>☆</span>
+                              <% } %>
+                              </span>
+                          </samp>
+                        </p>
+                          <p class="description"  style="padding-bottom: 10px;">Feedback: <%=menu.reviews[i].comment %></p>
+                       </div>
+                   
+                 </div>
+                 <%} %>
+              </div>
+             </div>
+      </div>
+    <!-- </div> -->
+  
+     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+      <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+      <script src="https://kit.fontawesome.com/d9164a4c3f.js" crossorigin="anonymous"></script>
+      <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+      </body>
+</html>
+

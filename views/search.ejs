@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Go4Food Restaurant Catalog</title>
+    <link rel="stylesheet" href="css/styles.css" />
+    <link rel="stylesheet" href="css/swiper-bundle.min.css" />
+
+
+  </head>
+  <style>
+    .contentHeader {
+      display: flex;
+      margin: 20px;
+    }
+    .item-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+      margin-left: 5%;
+       margin-right: 5%;
+    }
+ 
+
+.recipe,.img-box {
+  display: flex;
+   flex-direction: column;
+}
+
+
+.img-box img {
+    width: 300px;
+     height: auto;
+  
+     object-fit: cover;
+     object-position: 50% 50%;
+}
+ 
+
+.recipe-content {
+  /* padding: 16px 32px; */
+   width: 300px;
+}
+
+.recipe-tag {
+  display: inline-block;
+  margin: 8px;
+  font-size: 0.875em;
+  text-transform: uppercase;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  color: #ef3d3d;
+}
+.recipe-title {
+   font-size: 16px;
+   margin: 0;
+   text-align: left;
+}
+.recipe-title a {
+  text-decoration: none;
+  color: inherit;
+}
+
+.recipe-rating {
+  font-size: 1.2em;
+  color: #ef3d3d;
+}
+.recipe-desc{
+   font-size: 14px;
+}
+
+.recipe-save {
+   margin: 10px;
+  display: flex;
+  align-items: center;
+  padding: 6px 14px 6px 12px;
+  border-radius: 4px;
+  border: 2px solid currentColor;
+  color: #ef3d3d;
+  background: none;
+  cursor: pointer;
+}
+.recipe-save svg {
+  margin-right: 6px;
+}
+
+.big {
+  line-height: 1.55;
+  padding: 24px;
+  background-color: #fff;
+  border: 1px solid #e0e0e0;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+}
+.swiper-navBtn{
+      background: transparent;
+       border: none;
+       color: #ef3d3d;
+}
+
+  </style>
+  <body>
+    <!-- <div class="container" style="max-width: 100%"> -->
+      <%- include('navbar') %>
+    <!-- </div> -->
+    <div class="restaurant-catalog" style="margin-top: 5rem;">
+      <h2 style="margin-left: 5%; color: #ef3d3d">Top Rated Restaurant</h2>
+      <br />
+       <div class="item-list">
+        <% for (var i=0; i<allRestaurent.length; i++) {%>
+            <a href="/restaurant-detail/<%=allRestaurent[i]._id %>">
+          <div class="big">
+            <article class="recipe">
+             <div class="img-box">
+               <img src="/images/<%=allRestaurent[i].image %>" width="1500" height="1368" alt="restaurant">
+             </div>
+             <div class="recipe-content">
+               <h1   style=" color: #ef3d3d;"><a href="#"><%=allRestaurent[i].name %></a></h1>
+             </div>
+           </article>
+         </div>
+        </a>
+      <% } %>
+
+      </div>
+    </div>
+
+      <h2 style="margin-left: 5%; color: #ef3d3d">Top Dishes</h2>
+      <br />
+      <div class="item-list">
+      <% if(allMenus.length==0){ %>
+        <h1>No items found</h1>
+        <% }else { %>
+        <% for(var i=0;i<allMenus.length;i++){ %>
+        <div class="big">
+          <a href="/dish/<%=allMenus[i]._id %>">
+          <article class="recipe">
+           <div class="img-box">
+             <img src="/images/<%=allMenus[i].images[0] %>" width="1500" height="1368" alt="">
+           </div>
+           <div class="recipe-content">
+          </a>
+            <p class="recipe-tags">
+                        
+              <% for(var j=0;allMenus[i].tags.length; j++ ) {%>
+                <a href="/dishtags/<%=allMenus[i].tags[j] %> ">
+              <span class="recipe-tag"><%=allMenus[i].tags[j] %></span>
+            </a>
+              <% if(j>2){ break;}%>
+                
+              <% } %>
+             </p>
+             <a href="/dish/<%=allMenus[i]._id %>">
+             <h1 class="recipe-title"><a href="/dish/<%=allMenus[i]._id %>"><%=allMenus[i].title %></a></h1>
+             <h4 class="recipe-title"><a href="/dish/<%=allMenus[i]._id %>"><%=allMenus[i].price %></a></h4>
+             <p style="font-size: 16px; padding: 5px;"><%=allMenus[i].description%></p>
+
+             <p class="recipe-metadata">
+              <span class="recipe-rating">
+                <%var sum = 0; %>
+                <%for(var j=0;j<allMenus[i].reviews.length; j++) {%>
+                  <%  sum = sum + allMenus[i].reviews[j].rating %>
+                <% } %>
+                <%var rating = sum/allMenus[i].reviews.length; rating = Math.floor(rating) %>
+                <% if (sum===0) {rating=0} %>
+
+                <%for(var j=0;j<rating;j++){ %>
+                  <span>★</span>
+                <% } %>
+                <%for(var j=0;j<5-rating;j++){ %>
+                  <span>☆</span>
+                <% } %>
+               <span class="recipe-votes">(<%=allMenus[i].reviews.length %> votes)</span>
+            </p>
+      
+       </a>
+          <div  style="display: flex;">
+          <form action="/cart" method="post">
+            <input type="hidden" name="menu_id" value="<%=allMenus[i]._id %>">
+              <button class="recipe-save" type="submit" >
+             Add to Cart
+           </button>
+          </form>
+          <form action="/buynowsingle" method="post">
+             
+            <input type="hidden" name="menu_id" value="<%=allMenus[i]._id %>">
+            <button class="recipe-save" type="submit">
+              Buy Now
+            </button>
+          </form>
+  
+        
+  
+         </div>
+           </div>
+         </article>
+       </div>
+        <% } %>
+        <% } %>
+       
+        <!-- Add more top-rated restaurant items here -->
+      </div>
+    
+    </div>
+
+
+   
+   <!-- Swiper JS -->
+   <script src="../js/swiper-bundle.min.js">
+
+
+
+   </script>
+
+   <!-- JavaScript -->
+   <script>
+
+var swiper = new Swiper(".slide-content", {
+  slidesPerView: 3,
+  spaceBetween: 25,
+  loop: true,
+  centerSlide: "true",
+  fade: "true",
+  grabCursor: "true",
+  pagination: {
+    el: ".swiper-pagination",
+    clickable: true,
+    dynamicBullets: true,
+  },
+  navigation: {
+    nextEl: ".swiper-button-next",
+    prevEl: ".swiper-button-prev",
+  },
+
+  breakpoints: {
+    0: {
+      slidesPerView: 1,
+    },
+    520: {
+      slidesPerView: 2,
+    },
+    950: {
+      slidesPerView: 3,
+    },
+  },
+});
+
+   </script>
+  </body>
+</html>

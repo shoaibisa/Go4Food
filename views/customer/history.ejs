@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Go4Food - Order History</title>
+    <link rel="stylesheet" href="css/styles.css" />
+   
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+ <style>
+    .modal {
+  display: none;
+  position: fixed;
+  z-index: 1;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+.modal-content {
+  background-color: #fefefe;
+  margin: 15% auto;
+  padding: 20px;
+  border: 1px solid #888;
+  width: 40%;
+}
+
+.close {
+  color: #aaa;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+}
+.custom-itemside {
+    position: relative;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    width: 100%;
+}
+
+.close:hover,
+.close:focus {
+  color: black;
+  text-decoration: none;
+  cursor: pointer;
+}
+/*  star */
+.visuhide {
+  position: absolute !important;
+  overflow: hidden;
+  width: 1px;
+  height: 1px;
+  clip: rect(1px, 1px, 1px, 1px);
+}
+
+.star__container:hover .star__item, .star__radio:checked ~ .star__item {
+  filter: grayscale(0);
+}
+.star__item:hover ~ .star__item, .star__item, .star__container:not(:hover) > .star__radio:nth-of-type(5):checked ~ .star__item:nth-of-type(5) ~ .star__item, .star__container:not(:hover) > .star__radio:nth-of-type(4):checked ~ .star__item:nth-of-type(4) ~ .star__item, .star__container:not(:hover) > .star__radio:nth-of-type(3):checked ~ .star__item:nth-of-type(3) ~ .star__item, .star__container:not(:hover) > .star__radio:nth-of-type(2):checked ~ .star__item:nth-of-type(2) ~ .star__item, .star__container:not(:hover) > .star__radio:nth-of-type(1):checked ~ .star__item:nth-of-type(1) ~ .star__item {
+  filter: grayscale(1);
+}
+.star__radio:nth-of-type(1):checked ~ .star__item:nth-of-type(1)::before {
+  transform: scale(1.5);
+  transition-timing-function: cubic-bezier(0.5, 1.5, 0.25, 1);
+}
+.star__radio:nth-of-type(2):checked ~ .star__item:nth-of-type(2)::before {
+  transform: scale(1.5);
+  transition-timing-function: cubic-bezier(0.5, 1.5, 0.25, 1);
+}
+.star__radio:nth-of-type(3):checked ~ .star__item:nth-of-type(3)::before {
+  transform: scale(1.5);
+  transition-timing-function: cubic-bezier(0.5, 1.5, 0.25, 1);
+}
+.star__radio:nth-of-type(4):checked ~ .star__item:nth-of-type(4)::before {
+  transform: scale(1.5);
+  transition-timing-function: cubic-bezier(0.5, 1.5, 0.25, 1);
+}
+.star__radio:nth-of-type(5):checked ~ .star__item:nth-of-type(5)::before {
+  transform: scale(1.5);
+  transition-timing-function: cubic-bezier(0.5, 1.5, 0.25, 1);
+}
+.star__container {
+  display: flex;
+  /* margin: auto; */
+   width: 20%;
+  border-radius: 0.25em;
+ 
+  transition: box-shadow 0.3s ease;
+}
+.star__item {
+  display: inline-flex;
+  width: 1.25em;
+  height: 1.5em;
+}
+.star__item::before {
+  content: "⭐️";
+  display: inline-block;
+  margin: auto;
+  font-size: 0.75em;
+  vertical-align: top;
+  backface-visibility: hidden;
+  transform-origin: 50% 33.3%;
+  transition: transform 0.3s ease-out;
+}
+ </style>
+</head>
+<body>
+    <div class="container-fluid">
+        <%- include('header.ejs') %>
+        
+        <div class="content" style="min-height: 100vh; margin-top: 0px !important">
+            <%- include('sidebar') %>` 
+            
+            <div class="order-history-content">
+                <h1>Order History</h1>
+                <% if(orders.length==0){ %>
+                <h1>No orders found</h1>
+                <% }else { %>
+                <% for(var i=0;i<orders.length;i++){ %>
+ 
+                <a href="/trackorder/<%=orders[i]._id %>" >
+            
+                <div class="order">
+                    <div class="order-header">
+                        <span class="order-number">Order Id: <%=orders[i]._id %></span>
+                        <span class="order-details">Delivery Address: <%=customer.address %></span>
+                    </div>
+  
+                    <p class="order-details" style="padding: 10px; width: 30%; background-color:
+                    <% if (orders[i].status === 'cancel') { %>
+                        rgb(250, 184, 184)
+                        <%}else if (orders[i].status === 'pending') { %>
+                           rgb(255,215,0)
+                    
+                    <% } else { %>
+                        rgb(184, 250, 184)
+                    <% } %>;"
+                >
+                    Order Status : <%= orders[i].status %>
+                </p>
+                     <p  class="order-details"   style="width: 30%;  margin-top: 10px;">  Product  : <%= orders[i].menus.menu_id.title %> - Quantity: <%= orders[i].menus.quantity %> </p>
+                
+                    <p  style=" margin-top: 20px;">Order Total: $<%=orders[i].price %></p>
+                </a>
+                    <% if(orders[i].status!=="cancel" && orders[i].status!=="delivered"){ %>
+            
+               
+                    <div class="order-actions">
+                        <form action="/cancelorder" method="post">
+                            <input type="hidden" name="order_id" value="<%=orders[i]._id %>">
+                        <button class="order-again-button">Cancel Order</button>
+                        </form>
+                    </div>
+                <% } %>
+                </div>
+          
+                <% } %>
+                <% } %>
+                <div class="card-body">
+                    <div class="row">
+                        <%for(var i =0; i<delivered_orders.length; i++){ %>
+                        <div class="col">
+                            <div class="card card-2">
+                                <div class="card-body">
+                                    <div class="media">
+                                        <div class="sq align-self-center "> <img class="img-fluid  my-auto align-self-center mr-2 mr-md-4 pl-0 p-0 m-0" src="/images/<%=delivered_orders[i].menus.menu_id.images[0] %>" width="135" height="135" /> </div>
+                                        <div class="media-body my-auto text-right">
+                                            <div class="row  my-auto flex-column flex-md-row"  style="align-items: center;">
+                                                <div class="col"> <h6 class="mb-0"> <%=delivered_orders[i].menus.menu_id.title  %> </h6>  </div>
+                                                <div class="col "> <small>Qty : <%=delivered_orders[i].totalQty %></small></div>
+                                                <div class="col "> <small>Price :<h6 class="mb-0">&#8377;<%=delivered_orders[i].price %></h6> </small></div>
+                                              
+                                               <div class="col-auto my-auto" style=" color: #080809;">
+                                                <div style="font-size: 12px;font-weight: 500;">
+                                                    <div class="_3SbeKb _2cm2Hi" ></div>
+                                                    <% var dates = new Date(delivered_orders[i].updatedAt) %>
+                                                    <span >Delivered on <%=dates.toLocaleDateString() %></span>
+                                                    <div   style="color: rgb(51, 211, 51);">Your item has been delivered</div>
+                                                 </div>
+                                                   <div>
+                                                    <img src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0nMTYnIGhlaWdodD0nMTknIHZlcnNpb249IjEuMSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB2aWV3Qm94PSIwIDAgMTggMTgiPgoJPGcgZmlsbD0nbm9uZSc+CgkJPHBvbHlnb24gaWQ9IlNoYXBlIiBmaWxsPSIjMjg3NEYxIiBwb2ludHM9IjkgMTIuMDYyNSAxMy42Mzc1IDE1LjQzNzUgMTEuODYyNSA5Ljk4NzUgMTYuNSA2LjY4NzUgMTAuODEyNSA2LjY4NzUgOSAxLjA2MjUgNy4xODc1IDYuNjg3NSAxLjUgNi42ODc1IDYuMTM3NSA5Ljk4NzUgNC4zNjI1IDE1LjQzNzUiIC8+CgkJPHBvbHlnb24gaWQ9IlNoYXBlIiBwb2ludHM9IjAgMCAxOCAwIDE4IDE4IDAgMTgiIC8+Cgk8L2c+Cjwvc3ZnPg==" class="_1dki8b col-1-5">
+                                                    <small title="Click to rate"   onclick="openModal(menu_id='<%=delivered_orders[i].menus.menu_id._id%>', title ='<%=delivered_orders[i].menus.menu_id.title%>', order_id ='<%=delivered_orders[i]._id %>' )" style="color: rgb(0, 102, 255); cursor: pointer; ">Rate & Review Project</small>
+                                                   </div>
+                                            </div>
+
+                                              
+                                            </div>
+                                        </div>
+                                    </div>
+                            
+                                 
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <% } %>
+                </div>
+                
+                
+                <!-- Add more orders here -->
+                
+            </div>
+        </div>
+    </div>
+    
+<div id="myModal" class="modal">
+    <div class="modal-content">
+        <div style=" display: flex; justify-content: space-between;">
+            <h2>Rate & Review Project</h2>
+            <span class="close" onclick="closeModal()">&times;</span>
+
+        </div>
+
+        <p id="title_menu"></p>
+     
+      <form action="/rating" method="post" style="margin-top: 10px;">
+        <input type="hidden" id="menu__id" name="menu_id" >
+         <input type="hidden" id="order__id" name="order_id" >
+        <p id="title_menu"></p>
+        <div class="dishform-input">
+          <div>
+            <label for="Rating" class="dishform-form-label">
+                Rating
+              </label>
+            <span class="star__container">
+                <input type="radio" name="rating" value="1" id="star-1" class="star__radio visuhide">
+                <input type="radio" name="rating" value="2" id="star-2" class="star__radio visuhide">
+                <input type="radio" name="rating" value="3" id="star-3" class="star__radio visuhide">
+                <input type="radio" name="rating" value="4" id="star-4" class="star__radio visuhide">
+                <input type="radio" name="rating" value="5" id="star-5" class="star__radio visuhide">
+              
+                <label class="star__item" for="star-1"><span class="visuhide">1 star</span></label>
+                <label class="star__item" for="star-2"><span class="visuhide">2 stars</span></label>
+                <label class="star__item" for="star-3"><span class="visuhide">3 stars</span></label>
+                <label class="star__item" for="star-4"><span class="visuhide">4 stars</span></label>
+                <label class="star__item" for="star-5"><span class="visuhide">5 stars</span></label>
+              </span>
+          </div>
+  
+          <div class="dishform-input">
+            <div>
+              <label for="firstname" class="dishform-form-label">
+                Review
+              </label>
+              <textarea
+                type="text"
+                name="comment"
+                 placeholder="Write feedback (option)"
+                class="dishform-form-input"
+               
+              ></textarea>
+            </div>
+  
+            <button class="dishform-btn" type="submit">Done</button>
+  
+      </form>
+    </div>
+  </div>
+  <script>
+    function openModal(menu_id, title) {
+      var menu_id_input = document.getElementById("menu__id");
+menu_id_input.value = menu_id;
+var title_input = document.getElementById("title_menu");
+title_input.innerHTML = title;
+var order_id_input = document.getElementById("order__id");
+order_id_input.value = order_id;
+var modal = document.getElementById("myModal");
+
+
+modal.style.display = "block";
+}
+
+function closeModal() {
+var modal = document.getElementById("myModal");
+modal.style.display = "none";
+}
+var activeStepIndex = 0;
+
+  </script>
+</body>
+</html>

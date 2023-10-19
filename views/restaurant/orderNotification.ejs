@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Go4Food Restaurant Catalog</title>
+    <link rel="stylesheet" href="../css/styles.css" />
+  </head>
+  <style>
+    .contentHeader {
+      display: flex;
+      margin: 20px;
+    }
+    .item-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+   
+      justify-content: space-around;
+    }
+    .card_item {
+      width: calc(100% - 20px);
+      margin-bottom: 20px;
+      padding: 20px;
+      background-color: #fff;
+      border: 1px solid #ef3d3d;
+      box-shadow: 0 0 5px rgba(0, 0, 0, 0.1); 
+      border-radius: 5px;
+      text-align: center;
+    }
+
+    .card_item img {
+      width: 100%;
+      max-height: 150px;
+      object-fit: cover;
+      border-radius: 5px;
+    }
+
+    .card_item h3 {
+      margin: 10px 0;
+      font-size: 18px;
+      color: #ef3d3d;
+      text-align: left;
+    }
+
+    .card_item p {
+      margin: 5px 0;
+      font-size: 14px;
+      color: #777;
+      text-align: left;
+    }
+    .item_btn {
+      padding: 10px;
+      background-color: #ef3d3d;
+      margin-top: 10px;
+      color: white;
+      width: 200px;
+      border: none;
+      border-radius: 100px;
+      border: 2px solid black;
+      border: 0;
+    }
+    .order_list {
+      display: flex;
+      gap: 10px;
+    }
+    .confirm_order_box {
+      display: flex;
+      flex-direction: column;
+      width: 30%;
+      background-color: #fff;
+      border: 1px solid #e0e0e0;
+      box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+    }
+    .order_info {
+      text-align: left;
+      padding: 20px;
+    }
+    .order_info p {
+      color: #ef3d3d;
+    }
+    .item_btn {
+      padding: 5px;
+      background-color: #ef3d3d;
+      margin-top: 10px;
+      color: white;
+      width: 100px;
+      border: none;
+      border-radius: 100px;
+      border: 2px solid black;
+      border: 0;
+      cursor: pointer;
+    }
+    .confirm_btn {
+       display: flex;
+      padding: 20px;
+       justify-content: space-evenly;
+    }
+  </style>
+  <body>
+    <div class="container-fluid" >
+    <%- include('header') %>
+
+    <div class="content" style="min-height: 100vh; margin-top: 0px">
+      <%- include('sidebar') %>
+
+      <div class="restaurant-catalog">
+        <h2 style="color: #ef3d3d">Order Notification</h2>
+        <br />
+        <div class="item-list">
+          <div class="card_item">
+            <h3 style="color: #ef3d3d; text-align: center">Orders</h3>
+            <div class="order_list">
+              <% if(orders.length===0){ %>
+              <h3 style="color: #ef3d3d; text-align: center">No orders</h3>
+              <% } %>
+              <% orders.forEach(function(order){ %>
+              <div class="confirm_order_box" title="Confirm or Cancel Order">
+                <h4 style="margin-top: 10px; color: #ef3d3d">Order Number : <%=order.order_id %></h4>
+                <div class="order_info">
+                   
+                  <p class="order_customer_info">Customer info: <%=order.customer.name %></p>
+                  <p class="order_deliver_info">Delivery Address: <%=order.customer.address %></p>
+                  <p class="order_deliver_info">Delivery Phone: <%=order.customer.phone %></p>
+                  <p class="order_deliver_info">Order Status: <%=order.status %></p>
+                  
+                  <p class="order_deliver_info">Order Date: <%=order.updatedAt %></p>
+                  <% if(order.scheduled==="true") {%>
+                   <% if(order.frequency=="daily"){ %>
+                    <!-- date tomorrow  order.createdAt +1-->
+                
+                  <p class="order_deliver_info">Order Expectency: <%=order.frequency %></p>
+                  <% }else if(order.frequency=="weekly"){ %>
+                  <p class="order_deliver_info">Order Expectency: <%=order.frequency %></p>
+                   <%}}else{ %>
+                  <p class="order_deliver_info">Order Expectency: ASAP</p>
+                  <% } %>
+                  <!-- Menus -->
+                  <p class="order_deliver_info">Menus: </p>
+                   
+                  <p class="order_deliver_info">- <%=order.menu.title %> x <%=order.quantity %> = $ <%=order.quantity *order.menu.price%></p>
+                  
+                </div>
+                <div class="confirm_btn">
+                <form action="/restaurant/confirmorder" method="post">
+                  <input type="hidden" name="order_id" value="<%=order.order_id %>">
+                  <button type="submit" class="item_btn" style="background-color: green; margin-right: 5px;">Confirm</button>
+                </form>
+                  <form action="/restaurant/cancelorder" method="post">
+                    <input type="hidden" name="order_id" value="<%=order.order_id %>">
+                  <button type="submit"  class="item_btn">Cancel</button>
+                  </form>
+                </div>
+                
+              </div>
+              <% }) %>
+              
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

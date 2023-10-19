@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Go4Food - Profile Info</title>
+    <link rel="stylesheet" href="/css/styles.css" />
+    <style>
+      .profile-content {
+        width: 50%;
+        padding: 20px;
+        background: #fff;
+        -webkit-box-shadow: 0 1px 6px 1px rgba(69, 65, 78, 0.1);
+        -moz-box-shadow: 0 1px 6px 1px rgba(69, 65, 78, 0.1);
+        box-shadow: 0 1px 6px 1px rgba(69, 65, 78, 0.1);
+      }
+      .profile-info {
+        margin-bottom: 20px;
+      }
+
+      .profile-info label {
+        font-weight: bold;
+        display: block;
+        margin-bottom: 5px;
+      }
+
+      .profile-info input[type="text"] {
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        width: 100%;
+        margin-bottom: 10px;
+      }
+
+      .profile-info .edit-button {
+        background-color: #ef3d3d;
+        color: #fff;
+        border: none;
+        border-radius: 5px;
+        padding: 8px 16px;
+        cursor: pointer;
+      }
+
+      .profile-picture {
+        text-align: left;
+        margin-bottom: 20px;
+      }
+
+      .profile-picture img {
+        width: 100px;
+
+        object-fit: cover;
+        border-radius: 50%;
+      }
+
+      .edit-button {
+        display: inline-block;
+        background-color: #ef3d3d;
+        color: #fff;
+        border: none;
+        border-radius: 5px;
+        padding: 8px 16px;
+        cursor: pointer;
+        margin-top: 10px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container-fluid">
+      <%- include('header.ejs') %>
+
+      <div
+        class="content"
+        style="min-height: 100vh; margin-top: 0px !important"
+      >
+        <%- include('sidebar') %>
+        <div class="restaurant-catalog">
+          <div class="container profile-content">
+            <h1>Profile Information</h1>
+            <form
+              action="/restaurant/post-editprofile"
+              method="post"
+              enctype="multipart/form-data"
+            >
+              <div class="profile-info">
+                <label for="email">Email</label>
+                <input
+                  type="text"
+                  id="email"
+                  value="<%=restaurant.email %>"
+                  name="email"
+                />
+              </div>
+
+              <div class="profile-info">
+                <label for="username">Name</label>
+                <input
+                  type="text"
+                  id="username"
+                  name="name"
+                  value="<%=restaurant.name %>"
+                />
+              </div>
+              <div class="profile-info">
+                <label for="address">Phone</label>
+                <input
+                  type="text"
+                  id="address"
+                  value="<%=restaurant.phone %>"
+                  name="phone"
+                />
+              </div>
+
+              <div class="profile-info">
+                <label for="address">Delivery Address</label>
+                <input
+                  type="text"
+                  id="address"
+                  value=" <%=restaurant.address %>"
+                  name="address"
+                />
+              </div>
+
+              <div class="profile-picture">
+                <img
+                  src="/images/<%=restaurant.image %>"
+                  alt="Profile Picture"
+                />
+              </div>
+              <div class="profile-info">
+                <label for="address">Upload Profile</label>
+                <input type="file" name="images" id="images" />
+              </div>
+              <button type="submit" class="edit-button">Edit</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Go4Food - Cart</title>
+    <link rel="stylesheet" href="css/styles.css" />
+     <style>
+       .buttons  {
+      padding: 10px 10px;
+      font-size: 16px;
+      cursor: pointer;
+       border: none;
+        border:  1px solid #ef3d3d;
+      color: #ef3d3d;
+       border-radius: 5px;
+    }
+    .qtyinc a{
+      padding: 0 1vh;
+    color: black;
+    text-decoration: none;
+    border: 1px solid #dee2e6!important;
+     margin: 2px;
+    }
+     </style>
+  </head>
+
+  <body>
+    <div class="container-fluid ">
+          <!-- navbar -->
+          <%- include('../navbar') %>
+      <div class="content"  style="min-height: 100vh; margin-top: 100px !important"
+      >
+        
+        <div class="cart-content">
+          <h1>Shopping Cart</h1>
+            
+          <% if((cart.menus.length)==0 ){%>
+            <h2>Cart is empty</h2>
+            <% }else{ %>
+              <% if(msg){ %>
+                <p style="color: red"><%=msg %></p>
+              <% } %>
+                <% var totalPrice =0; var qty=0 %>
+                <% for(var i=0;i<cart.menus.length;i++){ %>
+
+          <div class="cart-item">
+            <img src="/images/<%=cart.menus[i].menu_id.images[0] %>" alt="Product Image" />
+            <div class="cart-item-details">
+              <h3>Product <%= cart.menus[i].menu_id.title %></h3>
+              <p>Price: $<%=cart.menus[i].menu_id.price*cart.menus[i].quantity %></p>
+              <p>Quantity: <%=cart.menus[i].quantity %></p>
+            </div>
+            <div class="col qtyinc " style=" width: 50%;">
+             
+
+             <div style="display: flex;">
+              <form action="/decrement" method="post">
+                <input type="hidden" name="id" value="<%=cart.menus[i].menu_id._id %>" > 
+                <button type="submit">-</button>
+              </form><a href="#" class="border"><%=cart.menus[i].quantity %></a>
+              
+              <form action="/increment" method="post">
+                <input type="hidden" name="id" value="<%=cart.menus[i].menu_id._id %>" > 
+                <button type="submit">+</button>
+              </form>
+             </div>
+          </div>
+            <div class="cart-item-actions">
+                <form action="/remove-from-cart" method="post">
+                    <input type="hidden" name="id" value="<%=cart.menus[i].menu_id._id %>" > 
+                      <button type="submit" class="remove-item">Remove</button>
+                    </form>
+            </div>
+          </div>
+            <% totalPrice += cart.menus[i].menu_id.price*cart.menus[i].quantity %>
+            <% qty ++ %>
+          <% } %>
+          <div class="cart-item">
+             <div class="cart-item-details">
+              <p>Total Price: $<%=totalPrice %></p>
+              <p>Total Order to be made: <%=qty %></p>
+              <p>Total items : <%=cart.total %></p>
+                   <div style="display: flex">
+                    <form action="/buynow" method="post">
+                      <input type="hidden" name="type" value="multiple">
+                    <button class="remove-item  buttons" style="margin-right: 10px; ">Buy Now</button>
+                  </form>
+                    <button class="remove-item buttons">Pre Planned Order</button>
+                   </div>
+            
+            </div>
+             
+            </div>
+            <% } %>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

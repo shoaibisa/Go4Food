@@ -1,0 +1,79 @@
+
+
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Go4Food Restaurant Catalog</title>
+    <link rel="stylesheet" href="css/styles.css" />
+     <style>
+.column {
+  float: left;
+  width: 25%;
+  padding: 0 10px;
+}
+
+.row {
+  
+  margin: 0 -5px;
+ padding-top: 20px;
+}
+
+.row:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
+.card {
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2); 
+  padding: 16px;
+  text-align: center;
+  background-color: #f1f1f1;
+}
+     </style>
+  </head>
+  <body>
+    <div class="container-fluid">
+      <!-- navbar -->
+      <%- include('header.ejs') %>
+      <div
+        class="content"
+        style="min-height: 100vh; margin-top: 0px !important"
+      >
+      <%- include('sidebar') %>
+        <div class="restaurant-catalog">
+          <h1  style="text-transform: uppercase;" >WELCOME To Go4Food <%=customer.name %></h1>
+          <div class="row" >
+            <div class="column">
+              <div class="card" style=" text-align: left;">
+                <h5  style=" font-size: 16px;padding: 10px"> Total Order</h5>
+                <h1><%=customer.orders.length %></h1>
+              </div>
+            </div>
+            <div class="column">
+              <div class="card" style=" text-align: left;">
+                <h5  style=" font-size: 16px;padding: 10px"> Total Reviews</h5>
+                <h1><%=customer.reviews.length %></h1>
+              </div>
+            </div>
+            <div class="column">
+              <div class="card"  style=" text-align: left;">
+                <h5  style=" font-size: 16px;padding: 10px"> Total Rating</h5>
+                <h1><%=customer.reviews.length %></h1>
+              </div>
+            </div>
+            <div class="column">
+              <div class="card"  style=" text-align: left;">
+                <h5  style=" font-size: 16px;padding: 10px">Today</h5>
+                <% var date  = new Date() %>
+                <h1><%=date %></h1>
+              </div>
+            </div>
+          </div>
+          
+                  
+      </div>
+    </div>
+  </body>
+</html>
+

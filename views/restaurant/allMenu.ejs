@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Go4Food Restaurant Catalog</title>
+        <link rel="stylesheet" href="../css/styles.css" />
+        <link rel="stylesheet" href="https://cdn.datatables.net/1.13.5/css/dataTables.bootstrap5.min.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0/css/bootstrap.min.css">
+   <style>
+     img{
+         width: 100px;
+         height: auto;
+        margin-right: 10px;
+     }
+     .actionbtn div{
+        padding: 10px;
+     }
+    
+   </style>
+    </head>
+  <body>
+    <div class="container-fluid"  style=" margin: 0px; padding: 0px;">
+      <!-- navbar -->
+      <%- include('header') %>
+      <!-- Side bar -->
+      <div class="content" style="min-height: 100vh; margin-top: 0px">
+        <%- include('sidebar') %>
+        <div class="restaurant-catalog">
+             <div class="listHeader" s style="display: flex; justify-content: space-between;">
+              <h3 style="color: #ef3d3d"> Menu List</h3>
+              <a  href="/restaurant/createmenu" class="btn btn-outline-success">Add Menu</a>
+             </div>
+        
+            <div class="alllist"  style="margin-top: 30px;">
+              <table id="example" class="table table-striped"">
+                <thead>
+                    <tr>
+                        <th> Dish Id</th>
+                        <th>Name</th>
+                         <th>Discription</th>
+                        <th>Quantity</th>
+                        <th>Price</th>
+                        <th>Teg</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                   <% for(let  i=0; i<menus.length;i++){ %>
+                    <tr>
+                      <td style="max-width: 5px; overflow: hidden; text-overflow: ellipsis;"><%=menus[i]._id %></td>
+                      <td> <img src="/images/<%=menus[i].images[0] %>" alt=""> 
+                        <p><%=menus[i].title %></p>
+                      </td>
+                      <td><%=menus[i].description %></td>
+                      <% if(menus[i].quantity==0){ %>
+                      <td>Out of Stock</td>
+                      <% }else{ %>
+                      <td><%=menus[i].quantity %> </td>
+                      <% } %>
+                      <td>$<%=menus[i].price %></td>
+                      <td> 
+                        <% for(var j=0; j<menus[i].tags.length; j++){ %>
+                          <a  style= "margin: 5px;" button" class="btn btn-primary  btn-sm"><%=menus[i].tags[j] %></a>
+                             <%} %>
+                      </td>
+                      <td>
+                          <div class="actionbtn" style=" display: flex; padding: 10px;">
+                             <div>
+                              <a href="/dish/<%=menus[i]._id %>"   class="btn btn-primary">view</a>
+                             </div>
+                             <div>
+                              <form action="/restaurant/edit-menu" method="post">
+                                <input type="hidden" name="menu_id" value="<%=menus[i]._id %>"> 
+                               <button  type="submit" class="btn btn-warning">Edit</button>
+                              </form>
+                             </div>
+                             <div>
+                              
+                            <form action="/restaurant/delete-menu" method="post">
+                              <input type="hidden" name="menu_id" value="<%=menus[i]._id %>"> 
+                              <button type="submit" class="btn btn-danger">Delete</button>
+                             </form>
+                             </div>
+                           
+
+                          </div>
+                      </td>
+                  </tr>
+                     <% } %>
+              
+                   
+                </tbody>
+               
+            </table>
+            </div>
+          
+        
+        </div>
+    </div>
+      <!--  main  -->
+    </div>
+    
+     <script src="https://code.jquery.com/jquery-3.7.0.js"></script>
+     <script src="https://cdn.datatables.net/1.13.5/js/jquery.dataTables.min.js"></script>
+     <script src="https://cdn.datatables.net/1.13.5/js/dataTables.bootstrap5.min.js"></script>
+<script>
+   // new DataTable('#example');
+    $('#example').dataTable( {
+  "columnDefs": [
+    { "width": "7%", "targets": 0 },
+    { "width": "15%", "targets": 1 },
+    { "width": "30%", "targets": 2 },
+    { "width": "10%", "targets": 3},
+    { "width": "10%", "targets": 4 },
+    { "width": "10%", "targets": 5 }
+  ]
+} );
+</script>
+  </body>
+</html>

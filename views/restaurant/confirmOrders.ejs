@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Go4Food Restaurant Order History</title>
+        <link rel="stylesheet" href="../css/styles.css" />
+        <link rel='stylesheet' href='https://fonts.googleapis.com/icon?family=Material+Icons'>
+        <link rel="stylesheet" href="../css/multiselect.css"> 
+       <style>
+         a{
+             text-decoration: none;
+         }
+       </style>
+  </head>
+  <body>
+    <div class="container-fluid">
+      <!-- navbar -->
+      <%- include('header') %>
+      <!-- Side bar -->
+      <div class="content" style="min-height: 100vh; margin-top: 0px">
+        <%- include('sidebar') %>
+            
+            <div class="order-history-content">
+                <h1>Order History</h1>
+                <% if(orders.length==0){ %>
+                <h1>No orders found</h1>
+                <% }else { %>
+                <% for(var i=0;i<orders.length;i++){ %>
+                
+                <div class="order" title="Update order track">
+                    <% if(orders[i].status!=="cancel"){ %>
+                    <a href="/restaurant/updateorder/<%=orders[i].order_id %>" >
+                    <% } %>
+
+                    <div class="order-header">
+                        <span class="order-number">Order Id : <%=orders[i].order_id %></span>
+                        <span class="order-details">Delivery Address: <%=orders[i].customer.address %></span>
+                    </div>
+                    <p class="order-details" style="padding: 10px; width: 30%; background-color:
+                    <% if (orders[i].status === 'cancel') { %>
+                        rgb(250, 184, 184)
+                    <% } else { %>
+                        rgb(184, 250, 184);
+                    <% } %>;"
+                >
+                    Order Status : <%= orders[i].status %>
+                </p>
+                
+                    <p  class="order-details" style=" padding: 10px;  width: 30%;">Item  1: Product <%= orders[i].menu.title %> - Qty: <%= orders[i].quantity %> </p>
+                    <% if(orders[i].status!=="cancel"){ %>
+                </a>
+                <% } %>
+                <% if(orders[i].status!=="cancel"  && orders[i].status!=="delivered"){ %>
+                    <div class="order-actions">
+                        <form action="/restaurant/cancelorder" method="post">
+                            <input type="hidden" name="order_id" value="<%=orders[i].order_id %>">
+                        <button type="submit" class="order-again-button">Cancel Order</button>
+                        </form>
+                    </div>
+                <% } %>
+                </div>
+          
+                <% } %>
+                <% } %>
+ 
+                
+                <!-- Add more orders here -->
+                
+            </div>
+        </div>
+    </div>
+</body>
+</html>
