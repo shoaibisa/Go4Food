@@ -71,7 +71,7 @@ exports.getMenu = async (req, res, next) => {
 exports.getAllRestaurent = (req, res, next) => {
   Restaurant.find()
     .then((restaurants) => {
-      res.render("allRestaurent", {
+      res.render("allrestaurent", {
         allRestaurent: restaurants,
         msg: null,
         customer: req.session.customer,
