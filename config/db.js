@@ -1,20 +1,12 @@
 const mongoose = require("mongoose");
-
+const dotenv = require("dotenv");
+const colors = require("colors");
+dotenv.config();
 mongoose.set("strictQuery", true);
-exports.connectDB = () => {
+const connectDB = () => {
   mongoose
-    .connect("mongodb://127.0.0.1:27017", {
-      dbName: "Go4Food",
-      useNewUrlParser: true,
-      useUnifiedTopology: true,
-    })
-
-    .then(() => {
-      console.log("mongodb connected");
-    })
-    .catch((err) => console.log(err.message));
-
-  mongoose.connection.on("connected", () => {
-    console.log("Mongoose Connected to db");
-  });
+    .connect(process.env.MONGO_URI, {user: process.env.MONGO_USER, pass: process.env.MONGO_PWD, dbName: "Go4Food"})
+    .then((res) => console.log("Connected to MongoDB".bgBlue));
 };
+
+module.exports={connectDB};

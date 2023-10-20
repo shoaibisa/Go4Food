@@ -5,13 +5,14 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "nodemon app.js"
+    "start": "nodemon server_go4food.js"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
     "bcrypt": "^5.1.0",
     "body-parser": "^1.20.2",
+    "colors": "^1.4.0",
     "connect-mongodb-session": "^3.1.1",
     "dotenv": "^16.3.1",
     "ejs": "^3.1.9",
