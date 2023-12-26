@@ -2,21 +2,21 @@ const express = require("express");
 const mongoose = require("mongoose");
 const session = require("express-session");
 const mongoDbStore = require("connect-mongodb-session")(session);
-const PORT = 4024;
+const PORT = process.env.PORT || 4024;
 
 const bodyParser = require("body-parser");
-const db = require("./config/db");
+const { connectDB } = require("./config/db");
 
 const restaurantRoutes = require("./controllers/restaurant_r");
 const customerRoutes = require("./controllers/customer_r");
 const productsRoutes = require("./controllers/products_r");
 require("dotenv").config();
-db.connectDB();
+connectDB();
 const app = express();
-
+const MONGO_URI=process.env.MONGO_ONLINE+"Go4Food";
 // session store
 const store = new mongoDbStore({
-  uri: "mongodb://techfest:TeCh%40fest%2323@191.96.57.27:27017/Go4Food?authSource=admin",
+  uri: MONGO_URI,
   collection: "sessions",
 });
 
