@@ -1,8 +1,8 @@
 # Go4Food
 
-Online Food Ordering System Project for CS 476-02 (Spring 2023): Software Development Project
+Online Food Ordering System Project: Software Development Project
 
-Department of Computer Science, University of Regina.
+Department of Computer Science, SLIET.
 
 ## Project Description
 
